@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import CartContext from "./cart-context";
 
-const addToCartHandler = (item) => {};
+const ContextProvider = (props) => {
+  const [items, updateItems] = useState([]);
+  const addToCartHandler = (item) => {
+    updateItems([...items, item]);
+  };
 
-const removefromCartHandler = (id) => {};
+  const removefromCartHandler = (id) => {};
 
-const cartContext = {
-  items: [],
-  total: 0,
-  addItem: addToCartHandler,
-  removeItem: removefromCartHandler,
-};
-
-const contextProvider = (props) => {
+  const cartContext = {
+    items: items,
+    totalAmount: 0,
+    addItem: addToCartHandler,
+    removeItem: removefromCartHandler,
+  };
   return (
     <CartContext.Provider value={cartContext}>
       {props.children}
@@ -20,4 +22,4 @@ const contextProvider = (props) => {
   );
 };
 
-export default contextProvider;
+export default ContextProvider;

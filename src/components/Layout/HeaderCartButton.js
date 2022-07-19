@@ -5,16 +5,18 @@ import "./HeaderCartButton.css";
 
 const HeaderCartButton = (props) => {
   const ctxobj = useContext(CartContext);
-  const numberofCartItems = ctxobj.items.reduce((curNumber, item) => {
-    return curNumber + item.amount;
-  }, 0);
+  let quantity = 0;
+  ctxobj.items.forEach((item) => {
+    quantity = quantity + Number(item.quantity);
+  });
+
   return (
     <button className="button-header" onClick={props.onClick}>
       <span className="icon">
         <CartIcon />
       </span>
       <span>Your Cart</span>
-      <span className="badge">{numberofCartItems}</span>
+      <span className="badge">{quantity}</span>
     </button>
   );
 };
