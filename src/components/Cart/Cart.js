@@ -9,17 +9,26 @@ const Cart = (props) => {
   const CartItem = (
     <ul className="cart-items">
       {ctxobj.items.map((item) => (
-        <li key={item.id}>{item.name}</li>
+        <div key={item.id}>
+          <li>
+            {item.name} {item.quantity}
+          </li>
+          <li></li>
+        </div>
       ))}
     </ul>
   );
-
+  let totalAmount = 0;
+  ctxobj.items.forEach((item) => {
+    totalAmount = totalAmount + Number(item.quantity * item.price);
+  });
+  totalAmount = totalAmount.toFixed(2);
   return (
     <Modal>
       {CartItem}
       <div className="total">
         <span>Total Amount</span>
-        <span>35.62</span>
+        <span>{totalAmount}</span>
       </div>
       <div className="actions">
         <button className="button--alt" onClick={props.closeCart}>
