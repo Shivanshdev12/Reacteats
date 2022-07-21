@@ -1,40 +1,47 @@
 import React, { useContext } from "react";
 import Modal from "../UI/Modal";
+import CartItem from "./CartItem";
 import CartContext from "../../store/cart-context";
 import "./Cart.css";
 
 const Cart = (props) => {
   const ctxobj = useContext(CartContext);
+  console.log(ctxobj);
+  const hasItems = ctxobj.items.length > 0;
 
-  const CartItem = (
+  const removeHandler = (item) => {
+    ctxobj.removeItem(item);
+  };
+  const addHandler = (item) => {
+    ctxobj.addItem({ ...item, amount: 1 });
+  };
+
+  const cartItem = (
     <ul className="cart-items">
       {ctxobj.items.map((item) => (
-        <div key={item.id}>
-          <li>
-            {item.name} {item.quantity}
-          </li>
-          <li></li>
-        </div>
+        <CartItem
+          key={item.id}
+          name={item.name}
+          amount={item.amount}
+          price={item.price}
+          onRemove={removeHandler.bind(null, item)}
+          onAdd={addHandler.bind(null, item)}
+        />
       ))}
     </ul>
   );
-  let totalAmount = 0;
-  ctxobj.items.forEach((item) => {
-    totalAmount = totalAmount + Number(item.quantity * item.price);
-  });
-  totalAmount = totalAmount.toFixed(2);
   return (
     <Modal>
-      {CartItem}
+      {cartItem}
       <div className="total">
         <span>Total Amount</span>
-        <span>{totalAmount}</span>
+        <span>{ctxobj.totalAmount.toFixed(2)}</span>
       </div>
       <div className="actions">
         <button className="button--alt" onClick={props.closeCart}>
           Close
         </button>
-        <button className="button">Order</button>
+        {hasItems && <button className="button">Order</button>}
       </div>
     </Modal>
   );

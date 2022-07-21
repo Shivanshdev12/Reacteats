@@ -5,9 +5,9 @@ import "./HeaderCartButton.css";
 
 const HeaderCartButton = (props) => {
   const ctxobj = useContext(CartContext);
-  let quantity = 0;
+  let amount = 0;
   ctxobj.items.forEach((item) => {
-    quantity = quantity + Number(item.quantity);
+    amount = amount + Number(item.amount);
   });
 
   return (
@@ -16,7 +16,7 @@ const HeaderCartButton = (props) => {
         <CartIcon />
       </span>
       <span>Your Cart</span>
-      <span className="badge">{quantity}</span>
+      <span className="badge">{amount}</span>
     </button>
   );
 };
